@@ -1,0 +1,31 @@
+from fastapi import FastAPI
+from pydantic import BaseModel
+
+
+app = FastAPI()
+
+
+class Robot(BaseModel):
+   name: str
+   active_status: bool
+
+
+robots_db = []
+
+
+@app.post("/robots/")
+def create_robot(robot: Robot):
+
+
+   new_robot = robot.model_dump()
+   robots_db.append(new_robot)
+
+
+   return {"message": "Robot added successfully!", "robot": new_robot}
+
+
+@app.get("/robots/")
+def get_all_robots():
+
+
+   return robots_db
